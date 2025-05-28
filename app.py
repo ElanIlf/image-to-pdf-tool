@@ -20,11 +20,8 @@ def auto_crop_document(image):
     try:
         # Convert PIL Image to NumPy array (RGB to BGR for OpenCV)
         img_np = np.array(image.convert("RGB"))
-        # Convert to grayscale
         gray = cv2.cvtColor(img_np, cv2.COLOR_RGB2GRAY)
-        # Apply Gaussian blur to reduce noise
         blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-        # Use Canny edge detection
         edged = cv2.Canny(blurred, 75, 200) # Adjust thresholds if needed for better edge detection
 
         # Find contours in the edged image
@@ -192,10 +189,15 @@ def generate_pdf_from_processed_images(processed_images):
         # Standardize each image to fit the portrait page
         standardized_img = standardize_size_portrait(img)
         
+        # Convert PIL Image to a byte stream (PNG format) for reportlab
+        img_byte_arr = io.BytesIO()
+        standardized_img.save(img_byte_arr, format='PNG')
+        img_byte_arr.seek(0) # Rewind the buffer to the beginning
+
         # Draw the standardized image onto the PDF page
         # x=0, y=0 means bottom-left corner of the page
         # width=width, height=height ensures it fills the page
-        c.drawImage(standardized_img, 0, 0, width=width, height=height)
+        c.drawImage(img_byte_arr, 0, 0, width=width, height=height) # Pass the BytesIO object
         # Add a new page for the next image
         c.showPage()
 
