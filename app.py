@@ -195,9 +195,8 @@ def generate_pdf_from_processed_images(processed_images):
         img_byte_arr.seek(0) # Rewind the buffer to the beginning
 
         # Draw the standardized image onto the PDF page
-        # x=0, y=0 means bottom-left corner of the page
-        # width=width, height=height ensures it fills the page
-        c.drawImage(img_byte_arr, 0, 0, width=width, height=height) # Pass the BytesIO object
+        # Pass the raw bytes content from the BytesIO object
+        c.drawImage(img_byte_arr.getvalue(), 0, 0, width=width, height=height)
         # Add a new page for the next image
         c.showPage()
 
