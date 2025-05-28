@@ -1,6 +1,5 @@
-git init
-git add app.py requirements.txt
-git commit -m "First commit of image to PDF tool"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git # Replace with your repo URL
-git push -u origin main
+streamlit
+Pillow
+opencv-python==4.9.0.80
+numpy
+reportlab
