@@ -1,5 +1,5 @@
 streamlit
 Pillow
-numpy==1.26.4
-opencv-python==4.9.0.80
+numpy==1.23.5
+opencv-python-headless==4.6.0.66
 reportlab
