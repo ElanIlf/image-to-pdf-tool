@@ -7,6 +7,7 @@ import numpy as np
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
+from reportlab.lib.utils import ImageReader # Import ImageReader
 
 # Function to automatically crop the document from an image
 def auto_crop_document(image):
@@ -194,9 +195,12 @@ def generate_pdf_from_processed_images(processed_images):
         standardized_img.save(img_byte_arr, format='PNG')
         img_byte_arr.seek(0) # Rewind the buffer to the beginning
 
+        # Use ImageReader to explicitly tell reportlab that this is image data
+        image_reader = ImageReader(img_byte_arr)
+
         # Draw the standardized image onto the PDF page
-        # Pass the raw bytes content from the BytesIO object
-        c.drawImage(img_byte_arr.getvalue(), 0, 0, width=width, height=height)
+        # Pass the ImageReader object
+        c.drawImage(image_reader, 0, 0, width=width, height=height)
         # Add a new page for the next image
         c.showPage()
 
